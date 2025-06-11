@@ -184,7 +184,7 @@ const Home = () => {
   }
   async function createRide() {
     try {
-      const response = await AxiosInstance.post("/rides/create", {
+     await AxiosInstance.post("/rides/create", {
         pickup: pickupValue,
         destination: destValue,
         vehicleType: selectVehcileType,
