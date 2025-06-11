@@ -180,7 +180,6 @@ const Home = () => {
     });
     setVehiclePanelOpen(true);
     setPanelopen(false);
-    console.log("response", response.data);
     setFare(response?.data);
   }
   async function createRide() {
@@ -190,7 +189,7 @@ const Home = () => {
         destination: destValue,
         vehicleType: selectVehcileType,
       });
-      console.log("created", response);
+
     } catch (error) {
       console.log("error in creating ride", error);
     }
@@ -202,7 +201,6 @@ const Home = () => {
   });
   socket.on("ride-started", (ride: UserRideResponse) => {
     setWaitingForDriverPanel(false);
-    console.log("started", ride);
     navigate("/riding", { state: ride });
   });
 

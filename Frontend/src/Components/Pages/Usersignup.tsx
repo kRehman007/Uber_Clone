@@ -45,7 +45,6 @@ const Usersignup = () => {
     toast.promise(AxiosInstance.post("/users/register", userData), {
       loading: "creating...",
       success: (response) => {
-        console.log(response?.data?.user);
         localStorage.setItem("token", response?.data?.user?.token);
         dispatch(setUser(response?.data?.user));
         toast.success("you are successfully registered");

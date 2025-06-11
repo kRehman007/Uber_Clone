@@ -57,11 +57,11 @@ const Captainsignup = () => {
   });
 
   function onSubmit(captainData: z.infer<typeof formSchema>) {
-    console.log(captainData);
+
     toast.promise(AxiosInstance.post("/captains/register", captainData), {
       loading: "signing up...",
       success: (response) => {
-        console.log(response?.data?.captain);
+
         dispatch(setCaptain(response?.data?.captain));
         navigate("/captain-home");
         toast.success("you are successfully registered");

@@ -74,7 +74,6 @@ const CaptainHome = () => {
 
   useEffect(() => {
     socket.on("new-ride", (data: any) => {
-      console.log("New ride received:", data);
       setRide(data);
       setRidePopUpPanel(true);
     });

@@ -5,7 +5,7 @@ import { useAppSelector } from "../Redux/Redux-hook";
 
 const CaptainDetails = () => {
   const { captain } = useAppSelector((state) => state.captain);
-  console.log("cap", captain);
+
   return (
     <div>
       <div className="flex justify-between items-center p-2">

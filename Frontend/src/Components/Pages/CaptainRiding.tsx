@@ -10,7 +10,6 @@ import LiveLocation from "../components/LiveLocation";
 
 const CaptainRiding = () => {
   const location = useLocation();
-  console.log("loc", location);
   const FinsihRidingRef = useRef(null);
   const [FinishRidingPanel, setFinishRidingPanel] = useState(false);
   const rideData = location?.state;

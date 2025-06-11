@@ -7,7 +7,6 @@ const { sendEmail } = require("../services/ride-service");
 const createRide = async (req, res) => {
   const { pickup, destination, vehicleType } = req.body;
   const user = req.user;
-  console.log("usr", user);
   if (!pickup || !destination || !vehicleType) {
     return res.status(400).json({ error: "All fields are required" });
   }
@@ -24,13 +23,13 @@ const createRide = async (req, res) => {
     });
     res.status(200).json({ ride: createdRide });
     const captainsInRadius = await getCaptainInRadius(pickup);
-    console.log("ciR", captainsInRadius);
+
     createRide.otp = "";
 
     RideWithUser = await RideModel.findOne({ _id: createdRide._id }).populate(
       "user"
     );
-    console.log("rideWithuser", RideWithUser);
+
 
     captainsInRadius.map((captain) => {
       sendMessageToSocketID(captain.socketID, {
@@ -82,7 +81,7 @@ const confirmRide = async (req, res) => {
     if (!ride) {
       return res.status(400).json({ error: "Ride not found" });
     }
-    console.log("ride", ride);
+
     sendMessageToSocketID(ride.user.socketID, {
       event: "ride-confirm",
       data: ride,

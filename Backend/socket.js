@@ -31,7 +31,6 @@ function initializeSocket(server) {
       const { captainID, latitude, longitude } = data;
 
       if (!latitude || !longitude) {
-        console.log("Latitude and longitude are required");
         return socket.emit("error", { message: "Invalid location" });
       }
       try {

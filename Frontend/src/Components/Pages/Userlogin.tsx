@@ -37,7 +37,6 @@ const Userlogin = () => {
     toast.promise(AxiosInstance.post("/users/login", userData), {
       loading: "logging in...",
       success: (response) => {
-        console.log(response?.data?.user);
         localStorage.setItem("token", response?.data?.user?.token);
         dispatch(setUser(response?.data?.user));
         navigate("/home");
