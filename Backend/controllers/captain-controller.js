@@ -53,6 +53,7 @@ const registerCaptain = async (req, res) => {
       plate: createdCaptain.vehicle.plate,
       capacity: createdCaptain.vehicle.capacity,
       type: createdCaptain.vehicle.vehicleType,
+      token: token,
     };
     return res.status(201).json({
       captain: captainDetails,
@@ -92,6 +93,7 @@ const loginCaptain = async (req, res) => {
       plate: captain.vehicle.plate,
       capacity: captain.vehicle.capacity,
       type: captain.vehicle.vehicleType,
+      token: token,
     };
     return res
       .status(201)

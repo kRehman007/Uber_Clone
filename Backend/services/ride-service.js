@@ -1,32 +1,5 @@
-require("dotenv").config();
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 const { getDistanceWithTime } = require("./map-service");
-
-async function sendEmail(to, subject, text) {
-  try {
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.MY_EMAIL,
-        pass: process.env.MY_PASS,
-      },
-    });
-
-    let mailOptions = {
-      from: process.env.MY_EMAIL,
-      to: to,
-      subject: subject,
-      text: text,
-    };
-
-    let info = await transporter.sendMail(mailOptions);
-    return info;
-  } catch (error) {
-    console.log("Error in sending email", error.message);
-    throw new Error(error.message);
-  }
-}
 
 async function getFare(pickup, destination) {
   try {
@@ -70,7 +43,11 @@ async function getFare(pickup, destination) {
       ),
     };
 
-    return fare;
+    return {
+      fare,
+      distance: distanceTime.distance,
+      duration: distanceTime.duration,
+    };
   } catch (error) {
     throw new Error(error.message);
   }
@@ -84,4 +61,4 @@ function getOTP(num) {
   return otp;
 }
 
-module.exports = { getFare, getOTP, sendEmail };
+module.exports = { getFare, getOTP };

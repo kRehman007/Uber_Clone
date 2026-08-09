@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import FinishRidePopUp from "../components/FinishRidePopUp";
 import LiveLocation from "../components/LiveLocation";
+import { formatDistance } from "../Utils/formatDistance";
 
 const CaptainRiding = () => {
   const location = useLocation();
@@ -24,7 +25,7 @@ const CaptainRiding = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden">
-      <div className="flex w-full items-center  p-3 justify-between fixed">
+      <div className="flex w-full items-center  p-3 justify-between fixed z-10">
         <p className="text-3xl font-sans   leading-normal text-black ">Uber</p>
         <Link
           to="/captain-home"
@@ -34,7 +35,7 @@ const CaptainRiding = () => {
           <ImExit className="text-lg" />
         </Link>
       </div>
-      <div className="h-4/5 bg-red-500">
+      <div className="h-4/5 bg-red-500 relative z-0">
         <LiveLocation />
       </div>
       <div
@@ -43,7 +44,9 @@ const CaptainRiding = () => {
       >
         <IoIosArrowUp className="w-full absolute top-3 text-2xl text-white text-center" />
         <div className="p-6 pt-11 flex justify-between items-center ">
-          <h4 className="text-lg font-semibold">4 KM away</h4>
+          <h4 className="text-lg font-semibold">
+            {formatDistance(rideData?.distance)} away
+          </h4>
           <Button className="bg-green-600">Complete Ride</Button>
         </div>
       </div>

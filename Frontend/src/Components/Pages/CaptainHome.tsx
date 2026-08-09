@@ -28,7 +28,7 @@ const CaptainHome = () => {
             const { latitude, longitude } = position.coords;
 
             socket.emit("update-captain-location", {
-              userID: captain?._id,
+              captainID: captain?._id,
               latitude,
               longitude,
             });
@@ -46,7 +46,7 @@ const CaptainHome = () => {
     const locationInterval = setInterval(findCaptainLocation, 10000);
 
     return () => clearInterval(locationInterval);
-  });
+  }, []);
 
   const RidePopUpRef = useRef(null);
   const ConfrimRidePopUpRef = useRef(null);
@@ -91,7 +91,8 @@ const CaptainHome = () => {
       }),
       {
         loading: "process running",
-        success: () => {
+        success: (response) => {
+          setRide(response?.data?.user);
           setConfrimRidePopUpPanel(true);
           return "";
         },
@@ -106,7 +107,7 @@ const CaptainHome = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden">
-      <div className="flex w-full items-center  p-3 justify-between fixed">
+      <div className="flex w-full items-center  p-3 justify-between fixed z-10">
         <p className="text-3xl font-sans   leading-normal text-black ">Uber</p>
         <Link
           to="/captain-login"
@@ -117,7 +118,7 @@ const CaptainHome = () => {
         </Link>
       </div>
 
-      <div className="h-2/3">
+      <div className="h-2/3 relative z-0">
         <LiveLocation />
       </div>
       <div className="h-3/5 p-3">

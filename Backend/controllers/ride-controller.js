@@ -1,8 +1,10 @@
 const { RideModel } = require("../models/ride-model");
-const { getCaptainInRadius } = require("../services/map-service");
+const {
+  getCaptainInRadius,
+  getAddressCoordinates,
+} = require("../services/map-service");
 const { getFare, getOTP } = require("../services/ride-service");
 const { sendMessageToSocketID } = require("../socket");
-const { sendEmail } = require("../services/ride-service");
 
 const createRide = async (req, res) => {
   const { pickup, destination, vehicleType } = req.body;
@@ -12,7 +14,7 @@ const createRide = async (req, res) => {
   }
 
   try {
-    const fare = await getFare(pickup, destination);
+    const { fare, distance, duration } = await getFare(pickup, destination);
 
     const createdRide = await RideModel.create({
       user: user?._id,
@@ -20,23 +22,33 @@ const createRide = async (req, res) => {
       destination,
       otp: getOTP(6),
       fare: fare[vehicleType],
+      distance,
+      duration,
     });
-    res.status(200).json({ ride: createdRide });
-    const captainsInRadius = await getCaptainInRadius(pickup);
 
-    createRide.otp = "";
+    const ride = createdRide.toObject();
+    delete ride.otp;
+    res.status(200).json({ ride });
 
-    RideWithUser = await RideModel.findOne({ _id: createdRide._id }).populate(
-      "user"
-    );
+    try {
+      const pickupCoordinates = await getAddressCoordinates(pickup);
+      const captainsInRadius = await getCaptainInRadius(pickupCoordinates);
 
+      const rideWithUser = await RideModel.findOne({
+        _id: createdRide._id,
+      }).populate("user");
 
-    captainsInRadius.map((captain) => {
-      sendMessageToSocketID(captain.socketID, {
-        event: "new-ride",
-        data: RideWithUser,
+      captainsInRadius.forEach((captain) => {
+        if (captain.socketID) {
+          sendMessageToSocketID(captain.socketID, {
+            event: "new-ride",
+            data: rideWithUser,
+          });
+        }
       });
-    });
+    } catch (error) {
+      console.log("error in notifying captains", error.message);
+    }
   } catch (error) {
     console.log("error in creating ride", error);
     return res.status(500).json({ error: error.message });
@@ -51,7 +63,7 @@ const getRideFare = async (req, res) => {
       .json({ error: "Pickup and destination field are required" });
   }
   try {
-    const fare = await getFare(pickup, destination);
+    const { fare } = await getFare(pickup, destination);
     return res.status(201).json(fare);
   } catch (error) {
     console.log("error in fare calculation", error.message);
@@ -87,13 +99,6 @@ const confirmRide = async (req, res) => {
       data: ride,
     });
 
-    // Send OTP to captain's email
-    const captainEmail = ride.captain.email;
-    const otp = ride.otp;
-
-    // Assuming you have a function to send emails
-    await sendEmail(captainEmail, "Ride OTP", `Your OTP is: ${otp}`);
-
     return res.status(200).json({ user: ride });
   } catch (error) {
     console.log("error in confirming ride", error);
@@ -103,7 +108,7 @@ const confirmRide = async (req, res) => {
 
 const startRide = async (req, res) => {
   const { rideID, otp } = req.query;
-  if ((!rideID, !otp)) {
+  if (!rideID || !otp) {
     return res.status(400).json({ error: "RideID and otp are required" });
   }
   try {

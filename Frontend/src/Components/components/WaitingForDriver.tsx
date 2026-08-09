@@ -34,7 +34,7 @@ const WaitingForDriver: React.FC<WaitingForDriverProps> = ({
             {ride?.captain?.vehicle?.plate}
           </p>
           <p className="text-sm text-gray-500">Maruti Suzuki M11</p>
-          <p className="font-semibold text-medium">{ride?.otp}</p>
+          <p className="font-semibold text-medium">OTP: {ride?.otp}</p>
         </div>
       </div>
       <div className="flex gap-5 items-center p-2 my-2 border-b">

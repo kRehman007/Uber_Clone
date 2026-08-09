@@ -26,7 +26,7 @@ const Riding = () => {
         {" "}
         <IoHome className="text-xl" />
       </Link>
-      <div className="h-1/3">
+      <div className="h-1/3 relative z-0">
         <LiveLocation />
       </div>
       <div className=" p-3 pb-6 -mt-2 md:mt-0">

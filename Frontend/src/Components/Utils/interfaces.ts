@@ -53,6 +53,8 @@ export interface rideResponse {
   fare: string | number;
   status: string;
   otp?: string;
+  distance?: number;
+  duration?: number;
   user: User;
 }
 

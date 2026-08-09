@@ -37,6 +37,7 @@ const Captainlogin = () => {
     toast.promise(AxiosInstance.post("/captains/login", captainData), {
       loading: "logging in...",
       success: (response) => {
+        localStorage.setItem("token", response?.data?.captain?.token);
         dispatch(setCaptain(response?.data?.captain));
         navigate("/captain-home");
         return "You are succesffully login..";

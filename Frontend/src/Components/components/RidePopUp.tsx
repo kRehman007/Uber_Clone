@@ -1,6 +1,7 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { Button } from "../ui/button";
 import { rideResponse } from "../Utils/interfaces";
+import { formatDistance } from "../Utils/formatDistance";
 
 interface setRidePopUpPanel {
   confirmRide: () => void;
@@ -28,7 +29,9 @@ const RidePopUp: React.FC<setRidePopUpPanel> = ({
             {ride?.user.fullname.firstname + " " + ride?.user.fullname.lastname}
           </h2>
         </div>
-        <h2 className="text-medium font-semibold">2Km</h2>
+        <h2 className="text-medium font-semibold">
+          {formatDistance(ride?.distance)}
+        </h2>
       </div>
 
       <div className="flex gap-5 items-center p-2 mb-2 border-b mt-3">

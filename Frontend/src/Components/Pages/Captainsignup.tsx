@@ -62,6 +62,7 @@ const Captainsignup = () => {
       loading: "signing up...",
       success: (response) => {
 
+        localStorage.setItem("token", response?.data?.captain?.token);
         dispatch(setCaptain(response?.data?.captain));
         navigate("/captain-home");
         toast.success("you are successfully registered");

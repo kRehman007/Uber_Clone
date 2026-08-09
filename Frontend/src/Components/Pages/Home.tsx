@@ -174,13 +174,6 @@ const Home = () => {
         },
       }
     );
-
-    const response = await AxiosInstance.get("/rides/get-fare", {
-      params: { pickup: pickupValue, destination: destValue },
-    });
-    setVehiclePanelOpen(true);
-    setPanelopen(false);
-    setFare(response?.data);
   }
   async function createRide() {
     try {
@@ -194,19 +187,26 @@ const Home = () => {
       console.log("error in creating ride", error);
     }
   }
-  socket.on("ride-confirm", (data: UserRideResponse) => {
-    setRide(data);
-    setVehicleFoundPanel(false);
-    setWaitingForDriverPanel(true);
-  });
-  socket.on("ride-started", (ride: UserRideResponse) => {
-    setWaitingForDriverPanel(false);
-    navigate("/riding", { state: ride });
-  });
+  useEffect(() => {
+    socket.on("ride-confirm", (data: UserRideResponse) => {
+      setRide(data);
+      setVehicleFoundPanel(false);
+      setWaitingForDriverPanel(true);
+    });
+    socket.on("ride-started", (ride: UserRideResponse) => {
+      setWaitingForDriverPanel(false);
+      navigate("/riding", { state: ride });
+    });
+
+    return () => {
+      socket.off("ride-confirm");
+      socket.off("ride-started");
+    };
+  }, [socket, navigate]);
 
   return (
     <div className="h-screen w-full  overflow-hidden">
-      <div className="h-[70%]">
+      <div className="h-[70%] relative z-0">
         <LiveLocation />
       </div>
 

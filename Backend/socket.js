@@ -27,7 +27,6 @@ function initializeSocket(server) {
     });
 
     socket.on("update-captain-location", async (data) => {
-      ``;
       const { captainID, latitude, longitude } = data;
 
       if (!latitude || !longitude) {

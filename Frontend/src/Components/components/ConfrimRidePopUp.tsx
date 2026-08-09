@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { rideResponse } from "../Utils/interfaces";
+import { formatDistance } from "../Utils/formatDistance";
 import toast from "react-hot-toast";
 import AxiosInstance from "../Utils/Axios";
 import React, { useState } from "react";
@@ -66,7 +67,14 @@ const ConfrimRidePopUp: React.FC<ConfrimRidePopUpProp> = ({
                 ride?.user.fullname.lastname}
             </h2>
           </div>
-          <h2 className="text-medium font-semibold">2Km</h2>
+          <h2 className="text-medium font-semibold">
+            {formatDistance(ride?.distance)}
+          </h2>
+        </div>
+
+        <div className="mt-4 p-3 bg-gray-100 rounded-lg text-center">
+          <p className="text-sm text-gray-600">Ride OTP - ask the rider to confirm</p>
+          <p className="text-3xl font-bold tracking-widest">{ride?.otp}</p>
         </div>
 
         <div className="flex gap-5 items-center p-2 mb-2 border-b mt-3">

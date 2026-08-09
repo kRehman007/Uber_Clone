@@ -7,7 +7,7 @@ const {
 const getCoordinates = async (req, res) => {
   const { address } = req.query;
   if (!address) {
-    return res.status(401).json({ error: "Address is required" });
+    return res.status(400).json({ error: "Address is required" });
   }
   try {
     const coordinates = await getAddressCoordinates(address);
@@ -22,7 +22,7 @@ const getDistanceTime = async (req, res) => {
   const { pickup, destination } = req.query;
   if (!pickup || !destination) {
     return res
-      .status(401)
+      .status(400)
       .json({ error: "Pickup and Destination location are required" });
   }
   try {
@@ -37,7 +37,7 @@ const getDistanceTime = async (req, res) => {
 const getDistanceSuggestions = async (req, res) => {
   const { query } = req.query;
   if (!query) {
-    return res.status(401).json({ error: "Address is required" });
+    return res.status(400).json({ error: "Address is required" });
   }
   try {
     const suggestions = await getSuggestions(query);
