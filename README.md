@@ -109,7 +109,7 @@ Create a `.env` file in `Backend/`:
 PORT=5003
 MONGODB_URI="mongodb://127.0.0.1:27017/uber-app"
 JWT_SECRET="your-secret-key"
-FRONT_END_URL="http://localhost:5173"
+FRONTEND_URI="http://localhost:5173"
 ```
 
 Start the server (nodemon auto-reloads on changes):
@@ -130,7 +130,7 @@ npm install
 Create a `.env` file in `Frontend/`:
 
 ```env
-VITE_BACKEND_URL=http://localhost:5003
+VITE_BACKEND_URI=http://localhost:5003
 ```
 
 Start the dev server:
@@ -227,12 +227,12 @@ Nominatim requires a descriptive `User-Agent` header, which the backend sets on 
 | `PORT` | Server port (default 5003) |
 | `MONGODB_URI` | MongoDB connection string |
 | `JWT_SECRET` | Secret used to sign JSON Web Tokens |
-| `FRONT_END_URL` | Allowed CORS / Socket.io origin |
+| `FRONTEND_URI` | Allowed CORS / Socket.io origin |
 
 ### Frontend (`.env`)
 | Variable | Description |
 | --- | --- |
-| `VITE_BACKEND_URL` | Backend base URL (e.g. `http://localhost:5003`) |
+| `VITE_BACKEND_URI` | Backend base URL (e.g. `http://localhost:5003`) |
 
 ---
 

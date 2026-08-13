@@ -1,4 +1,6 @@
 const dotenv = require("dotenv").config();
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const cors = require("cors");
 const express = require("express");
 const connectToDB = require("./db/db_connection");
@@ -17,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("hello from node js");
+  res.send("Welcome to the EduLearn API");
 });
 
 app.get("/auth/validate-user", authUser, (req, res) => {
