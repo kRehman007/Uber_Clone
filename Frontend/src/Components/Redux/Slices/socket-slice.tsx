@@ -15,7 +15,7 @@ export const socketSlice = createSlice({
   reducers: {
     connectSocket: (state) => {
       if (!state.socket) {
-        const socket = io(import.meta.env.VITE_BACKEND_URL);
+        const socket = io(import.meta.env.VITE_BACKEND_URI);
 
         socket.on("connect", () => {
           console.log("Connected to Server");

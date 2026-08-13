@@ -12,7 +12,7 @@ export type SuggestionsResponse = suggestions[];
 export const GoogleMapAPI = createApi({
   reducerPath: "GoogleMapAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}`,
+    baseUrl: `${import.meta.env.VITE_BACKEND_URI}`,
     credentials: "include",
     prepareHeaders: (headers) => {
       headers.set("Authorization", `Bearer ${getToken()}`);
