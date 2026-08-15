@@ -1,5 +1,5 @@
 const http = require("http");
-const { app } = require("./index");
+const app = require("./index");
 const { initializeSocket } = require("./socket");
 
 const server = http.createServer(app);
